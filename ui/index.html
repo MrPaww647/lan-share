@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' http:; img-src 'self' data:; style-src 'self'; script-src 'self';">
+  <title>lan-share 0.1.12 — обмен файлами</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand-mark" aria-hidden="true">L</div>
+      <div>
+        <p class="eyebrow">ЛОКАЛЬНАЯ СЕТЬ</p>
+        <h1>lan-share</h1>
+      </div>
+      <span class="status"><span class="status-dot"></span>Подключение по коду</span>
+      <span class="version-badge">v0.1.12</span>
+    </header>
+
+    <section id="connection-card" class="card connection-card" hidden>
+      <div class="connection-copy">
+        <p class="eyebrow">ПОДКЛЮЧИТЕ ВТОРОЕ УСТРОЙСТВО</p>
+        <h2>Комната этого ПК</h2>
+        <p class="muted">На втором ПК введите адрес и код ниже или откройте адрес в браузере.</p>
+        <div id="address-list" class="address-list"></div>
+      </div>
+      <div class="pair-code">
+        <span class="muted">Код подключения</span>
+        <strong id="pair-code">------</strong>
+        <span class="code-hint">Действует, пока открыто приложение</span>
+      </div>
+    </section>
+
+    <section id="desktop-connect-card" class="card desktop-connect-card" hidden>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">ПОДКЛЮЧИТЬСЯ К ДРУГОМУ ПК</p>
+          <h2>Введите адрес и код</h2>
+        </div>
+        <span id="connected-label" class="connected-label" hidden></span>
+      </div>
+      <form id="desktop-connect-form" class="connect-form">
+        <div class="connect-fields">
+          <label class="form-field" for="desktop-address">
+            <span>Адрес второго ПК</span>
+            <input id="desktop-address" type="text" autocomplete="url" placeholder="http://192.168.1.20:54321" required>
+          </label>
+          <label class="form-field" for="desktop-code">
+            <span>Код подключения</span>
+            <input id="desktop-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="6 цифр" required>
+          </label>
+        </div>
+        <div class="connect-actions">
+          <button id="desktop-connect-button" class="button button-primary" type="submit">Подключиться</button>
+          <button id="return-local-button" class="button button-secondary" type="button" hidden>Моя комната</button>
+          <span id="connect-status" class="connect-status" role="status" aria-live="polite"></span>
+        </div>
+      </form>
+    </section>
+
+    <section id="pair-card" class="card pair-card" hidden>
+      <div class="pair-icon" aria-hidden="true">↗</div>
+      <h2>Подключение к устройству</h2>
+      <p class="muted">Введите код, который показан в приложении на другом устройстве.</p>
+      <form id="pair-form" class="pair-form">
+        <label class="sr-only" for="pair-input">Код подключения</label>
+        <input id="pair-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Например, 482159" required>
+        <button class="button button-primary" type="submit">Подключиться</button>
+      </form>
+    </section>
+
+    <section id="transfer-card" class="card transfer-card" hidden>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">ПЕРЕДАЧА</p>
+          <h2>Отправить файлы</h2>
+          <p id="storage-label" class="muted storage-label">Файлы в комнате этого ПК</p>
+        </div>
+        <span id="file-count" class="file-count">0 файлов</span>
+      </div>
+      <label id="drop-zone" class="drop-zone" for="file-input">
+        <span class="upload-icon" aria-hidden="true">↑</span>
+        <strong>Перетащите файлы сюда</strong>
+        <span class="muted">или нажмите, чтобы выбрать на устройстве</span>
+        <input id="file-input" type="file" multiple>
+      </label>
+      <div id="transfer-status" class="transfer-status" role="status" aria-live="polite"></div>
+      <div class="received-heading">
+        <div>
+          <h3>Доступные файлы</h3>
+          <p class="muted">Файлы, которые уже переданы на это устройство</p>
+        </div>
+        <button id="refresh-button" class="button button-secondary" type="button">Обновить</button>
+      </div>
+      <ul id="file-list" class="file-list"></ul>
+      <p id="empty-state" class="empty-state">Пока файлов нет. Отправьте первый файл.</p>
+    </section>
+    <footer>Файлы не покидают вашу локальную сеть</footer>
+  </main>
+  <script src="renderer.js"></script>
+</body>
+</html>
